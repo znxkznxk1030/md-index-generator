@@ -1,5 +1,16 @@
-import { assert } from 'console'
 import fs from 'fs'
+
+const generateIndex = (path, format = 'utf-8') => {
+  return (
+    readFileLineByLine(path, format)
+      .filter(filterHeader)
+      .map(toHeading)
+      .map((heading) => {
+        return heading.toString()
+      })
+      .join('\n') + '\n'
+  )
+}
 
 class Heading {
   constructor(level, text) {
@@ -40,13 +51,4 @@ const mdIndex =
     })
     .join('\n') + '\n'
 
-// content.forEach((line) => {
-//   console.log(`Line from file: ${line}`)
-// })
-
-// headings.forEach((heading) => {
-//   // console.log(`Header from content: ${heading.level}, ${heading.text}`)
-//   console.log(`Heading from content: ${heading.toString()}`)
-// })
-
-console.log(mdIndex)
+console.log(generateIndex('./test-input-md/input-001.md'))
